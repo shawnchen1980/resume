@@ -64,9 +64,50 @@
   100% { transform:translate(0,10px) rotate(45deg); opacity: 0; }
 }
   </style>
+  <style type="text/css">
+    
+
+    #viz {
+        width: 900px;
+        height: 700px;
+        border: 1px solid lightgray;
+        font: 22pt arial;
+    }
+</style>
+  <script src="https://rawgit.com/neo4j-contrib/neovis.js/master/dist/neovis.js"></script>
+  <script type="text/javascript">
+
+    var viz;
+
+    function draw() {
+        var config = {
+            container_id: "viz",
+            server_url: "bolt://54.209.129.242:34011",
+            server_user: "neo4j",
+            server_password: "copper-body-version",
+            labels: {
+                "Character": {
+                    "caption": "name",
+                    "size": "pagerank",
+                    "community": "community"
+                }
+            },
+            relationships: {
+                "INTERACTS": {
+                    "thickness": "weight",
+                    "caption": false
+                }
+            },
+            initial_cypher: "MATCH (n) RETURN n LIMIT 25"
+        };
+
+        viz = new NeoVis.default(config);
+        viz.render();
+    }
+</script>
 </head>
 
-<body id="page-top">
+<body id="page-top" onload="draw()">
 
   <nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top" id="sideNav">
     <a class="navbar-brand js-scroll-trigger" href="#page-top">
@@ -319,7 +360,7 @@
         </ul>
       </div>
     </section> -->
-
+    <div id="viz"></div>
   </div>
 
   <!-- Bootstrap core JavaScript -->
@@ -331,7 +372,7 @@
 
   <!-- Custom scripts for this template -->
   <script src="js/resume.min.js"></script>
-
+  
 </body>
 
 </html>
